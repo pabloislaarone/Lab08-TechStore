@@ -1,0 +1,33 @@
+<%- include('partials/head') %>
+
+<div class="auth-box">
+    <h4>Crear cuenta</h4>
+    <p class="subtitle">Completa tus datos para registrarte.</p>
+
+    <form id="signup-form" novalidate>
+        <div class="input-field">
+            <input id="fullName" type="text" autocomplete="name" required>
+            <label for="fullName">Nombre completo</label>
+        </div>
+        <div class="input-field">
+            <input id="email" type="email" autocomplete="username" required>
+            <label for="email">Email</label>
+        </div>
+        <div class="input-field">
+            <input id="password" type="password" autocomplete="new-password" required>
+            <label for="password">Password</label>
+            <span class="helper-text">Mínimo 8 caracteres, 1 mayúscula, 1 número y 1 caracter especial</span>
+        </div>
+        <label for="store" class="select-label">Tienda asignada</label>
+        <select id="store" class="browser-default" required>
+            <option value="" disabled selected>Selecciona tu tienda</option>
+        </select>
+
+        <p id="form-error" class="form-error"></p>
+        <button class="btn btn-brand waves-effect waves-light" type="submit">Registrarme</button>
+    </form>
+
+    <p class="switch-link">¿Ya tienes cuenta? <a href="/signIn">Inicia sesión</a></p>
+</div>
+
+<%- include('partials/scripts') %>

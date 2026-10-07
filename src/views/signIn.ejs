@@ -1,0 +1,38 @@
+<%- include('partials/head') %>
+
+<div class="auth-box">
+    <h4>Iniciar sesión</h4>
+    <p class="subtitle">Ingresa con tu email y password.</p>
+
+    <form id="signin-form" novalidate>
+        <div class="input-field">
+            <i class="material-icons prefix">email</i>
+            <input id="email" type="email" autocomplete="username" required>
+            <label for="email">Email</label>
+        </div>
+        <div class="input-field">
+            <i class="material-icons prefix">lock</i>
+            <input id="password" type="password" autocomplete="current-password" required>
+            <label for="password">Password</label>
+        </div>
+        <p id="form-error" class="form-error"></p>
+        <button class="btn btn-brand waves-effect waves-light" type="submit">Ingresar</button>
+    </form>
+
+    <div class="divider-text"><span>o continúa con</span></div>
+
+    <div class="social-row">
+        <a href="/api/auth/google" class="btn-social" data-provider="google">
+            <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.2C12.4 13.7 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.2 5.500-4.700 7.200l7.600 5.900c4.400-4.100 6.900-10.100 6.900-17.600z"/><path fill="#FBBC05" d="M10.500 28.600c-.500-1.400-.800-3-.800-4.600s.300-3.200.800-4.600l-7.900-6.200C.900 16.500 0 20.100 0 24s.900 7.500 2.600 10.800l7.900-6.200z"/><path fill="#34A853" d="M24 48c6.500 0 11.900-2.100 15.900-5.800l-7.600-5.900c-2.100 1.400-4.900 2.300-8.300 2.300-6.300 0-11.600-4.200-13.500-10l-7.900 6.200C6.500 42.600 14.600 48 24 48z"/></svg>
+            Google
+        </a>
+        <a href="/api/auth/github" class="btn-social" data-provider="github">
+            <svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path fill="#181717" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            GitHub
+        </a>
+    </div>
+
+    <p class="switch-link">¿No tienes cuenta? <a href="/signUp">Regístrate</a></p>
+</div>
+
+<%- include('partials/scripts') %>

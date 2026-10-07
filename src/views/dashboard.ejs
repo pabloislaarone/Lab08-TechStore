@@ -1,0 +1,113 @@
+<%- include('partials/head') %>
+
+<section class="hero">
+    <div class="avatar-wrap">
+        <div id="avatar-initials" class="initials"></div>
+    </div>
+    <div>
+        <h4>Bienvenido, <span id="welcome-name"></span></h4>
+        <p id="welcome-store"></p>
+        <div id="roles"></div>
+    </div>
+</section>
+
+<div class="tiles">
+    <div class="tile stat">
+        <i class="material-icons">inventory_2</i>
+        <div><small>Productos</small><span id="total-products" class="value">0</span></div>
+    </div>
+    <div class="tile stat">
+        <i class="material-icons">layers</i>
+        <div><small>Unidades en stock</small><span id="total-units" class="value">0</span></div>
+    </div>
+    <div class="tile stat">
+        <i class="material-icons">warning</i>
+        <div><small>Stock bajo (≤ 5)</small><span id="total-low" class="value">0</span></div>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-head">
+        <h6 class="panel-title">Inventario de productos</h6>
+        <button id="new-product" class="btn-small btn-brand waves-effect waves-light" hidden>
+            <i class="material-icons left">add</i>Nuevo producto
+        </button>
+    </div>
+    <div class="table-scroll">
+        <table class="highlight users-table">
+            <thead>
+                <tr>
+                    <th>SKU</th>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Tienda</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="products-body"></tbody>
+        </table>
+    </div>
+    <p id="products-empty" class="empty" hidden>No hay productos para mostrar.</p>
+</div>
+
+<div id="report-panel" class="panel" hidden>
+    <h6 class="panel-title">Reporte de inventario por tienda</h6>
+    <div class="table-scroll">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>Tienda</th>
+                    <th>Ciudad</th>
+                    <th>Productos</th>
+                    <th>Unidades</th>
+                    <th>Valor del inventario</th>
+                    <th>Stock bajo</th>
+                </tr>
+            </thead>
+            <tbody id="report-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<div id="product-modal" class="modal">
+    <form id="product-form" novalidate>
+        <div class="modal-content">
+            <h5 id="product-modal-title"></h5>
+            <div class="row">
+                <div class="input-field col s12 m4 full-only">
+                    <input id="p-sku" type="text" required>
+                    <label for="p-sku">SKU</label>
+                </div>
+                <div class="input-field col s12 m8 full-only">
+                    <input id="p-name" type="text" required>
+                    <label for="p-name">Nombre</label>
+                </div>
+                <div class="input-field col s12 m6 full-only">
+                    <input id="p-category" type="text">
+                    <label for="p-category">Categoría</label>
+                </div>
+                <div class="input-field col s12 m3 full-only">
+                    <input id="p-price" type="number" min="0" step="0.01" required>
+                    <label for="p-price">Precio (S/)</label>
+                </div>
+                <div class="input-field col s12 m3">
+                    <input id="p-stock" type="number" min="0" step="1" required>
+                    <label for="p-stock">Stock</label>
+                </div>
+                <div id="p-store-wrap" class="col s12 full-only">
+                    <label for="p-store" class="select-label">Tienda</label>
+                    <select id="p-store" class="browser-default"></select>
+                </div>
+            </div>
+            <p id="form-error" class="form-error"></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close btn-flat">Cancelar</a>
+            <button class="btn btn-brand waves-effect waves-light" type="submit">Guardar</button>
+        </div>
+    </form>
+</div>
+
+<%- include('partials/scripts') %>

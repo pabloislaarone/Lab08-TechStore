@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | TechStore</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<% if (locals.auth) { %>
+    <main class="auth-shell">
+        <aside class="auth-brand">
+            <div class="logo"><i class="material-icons">inventory_2</i>TechStore</div>
+            <h2>Gestión de inventario segura</h2>
+            <p>Controla el stock de todas las tiendas desde un solo lugar, con permisos según tu perfil.</p>
+            <ul>
+                <li><i class="material-icons">lock</i>Contraseñas encriptadas y bloqueo tras 5 intentos</li>
+                <li><i class="material-icons">phonelink_lock</i>Verificación en dos pasos (TOTP)</li>
+                <li><i class="material-icons">vpn_key</i>Sesiones firmadas con JWT</li>
+                <li><i class="material-icons">supervisor_account</i>Roles: admin, gerente, empleado y auditor</li>
+            </ul>
+        </aside>
+        <section class="auth-form">
+<% } else { %>
+    <nav class="topbar">
+        <div class="nav-wrapper container">
+            <a href="/" class="brand-logo left"><i class="material-icons">inventory_2</i><span>TechStore</span></a>
+            <ul id="nav-links" class="right"></ul>
+        </div>
+    </nav>
+    <main class="container">
+<% } %>

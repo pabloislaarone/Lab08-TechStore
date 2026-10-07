@@ -1,0 +1,74 @@
+<%- include('partials/head') %>
+
+<section class="hero">
+    <div>
+        <h4>Usuarios y roles</h4>
+        <p id="admin-subtitle">Usuarios registrados en la plataforma.</p>
+    </div>
+</section>
+
+<div class="tiles">
+    <div class="tile stat">
+        <i class="material-icons">group</i>
+        <div><small>Usuarios</small><span id="total" class="value">0</span></div>
+    </div>
+    <div class="tile stat">
+        <i class="material-icons">phonelink_lock</i>
+        <div><small>Con MFA activo</small><span id="total-mfa" class="value">0</span></div>
+    </div>
+    <div class="tile stat">
+        <i class="material-icons">lock_clock</i>
+        <div><small>Bloqueados</small><span id="total-locked" class="value">0</span></div>
+    </div>
+</div>
+
+<div class="panel">
+    <h6 class="panel-title">Listado de usuarios</h6>
+    <div class="table-scroll">
+        <table class="highlight users-table">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Tienda</th>
+                    <th>Acceso</th>
+                    <th>MFA</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="users-body"></tbody>
+        </table>
+    </div>
+</div>
+
+<div id="user-modal" class="modal">
+    <form id="user-form" novalidate>
+        <div class="modal-content">
+            <h5 id="m-full-name"></h5>
+            <p id="m-email" class="subtitle"></p>
+
+            <label for="m-role" class="select-label">Rol</label>
+            <select id="m-role" class="browser-default">
+                <option value="admin">Administrador del Sistema</option>
+                <option value="gerente">Gerente de Tienda</option>
+                <option value="empleado">Empleado de Ventas</option>
+                <option value="auditor">Auditor</option>
+            </select>
+
+            <label for="m-store" class="select-label">Tienda asignada</label>
+            <select id="m-store" class="browser-default"></select>
+
+            <p id="form-error" class="form-error"></p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" id="m-reset-mfa" class="btn-flat">Reiniciar MFA</a>
+            <a href="#!" id="m-unlock" class="btn-flat">Desbloquear</a>
+            <a href="#!" class="modal-close btn-flat">Cancelar</a>
+            <button class="btn btn-brand waves-effect waves-light" type="submit">Guardar</button>
+        </div>
+    </form>
+</div>
+
+<%- include('partials/scripts') %>

@@ -1,0 +1,32 @@
+<%- include('partials/head') %>
+
+<div class="auth-box">
+    <h4>Verificación en dos pasos</h4>
+    <p id="mfa-subtitle" class="subtitle">Ingresa el código de 6 dígitos de tu app de autenticación.</p>
+
+    <!-- Solo en el primer ingreso: vincular Google Authenticator -->
+    <div id="mfa-setup" class="mfa-setup" hidden>
+        <ol>
+            <li>Instala <strong>Google Authenticator</strong> (o Authy, Microsoft Authenticator).</li>
+            <li>Escanea este código QR desde la app.</li>
+            <li>Escribe el código de 6 dígitos que te muestra.</li>
+        </ol>
+        <img id="mfa-qr" alt="Código QR para configurar el MFA" width="220" height="220">
+        <p class="mfa-secret">¿No puedes escanear? Clave manual: <code id="mfa-secret"></code></p>
+    </div>
+
+    <form id="mfa-form" novalidate>
+        <div class="input-field">
+            <i class="material-icons prefix">phonelink_lock</i>
+            <input id="code" class="code-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6"
+                   autocomplete="one-time-code" required>
+            <label for="code">Código de 6 dígitos</label>
+        </div>
+        <p id="form-error" class="form-error"></p>
+        <button class="btn btn-brand waves-effect waves-light" type="submit">Verificar</button>
+    </form>
+
+    <p class="switch-link"><a href="/signIn" id="mfa-cancel">Volver a iniciar sesión</a></p>
+</div>
+
+<%- include('partials/scripts') %>

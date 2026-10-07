@@ -1,0 +1,26 @@
+# Dependencias
+node_modules/
+
+# Variables de entorno y credenciales (solo se sube .env.example)
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Temporales y resultados de pruebas
+tmp/
+coverage/
