@@ -63,27 +63,35 @@ class AuthService {
 
         const ok = await bcrypt.compare(password, user.password);
         if (!ok) {
-            const updated = await User.findByIdAndUpdate(
-                user._id, { $inc: { failedLoginAttempts: 1 } }, { new: true }
-            );
-            if (updated.failedLoginAttempts >= maxLoginAttempts()) {
-                const lockUntil = new Date(Date.now() + lockMinutes() * 60 * 1000);
-                await User.findByIdAndUpdate(user._id, { lockUntil, failedLoginAttempts: 0 });
-                throw this.lockedError(lockUntil);
-            }
-            const left = maxLoginAttempts() - updated.failedLoginAttempts;
+            const left = await this.registerFailure(user._id);
             throw httpError(401, `Credenciales inválidas. Te quedan ${left} intento(s) antes del bloqueo`);
         }
 
-        if (user.failedLoginAttempts > 0 || user.lockUntil)
-            await User.findByIdAndUpdate(user._id, { failedLoginAttempts: 0, lockUntil: null });
-
+        // El contador de fallos no se reinicia aquí sino al completar el MFA: si no,
+        // con el password se podrían pedir desafíos nuevos y probar códigos sin límite.
         return this.startMfa(user);
+    }
+
+    // Suma un intento fallido (password o código MFA) y devuelve los que quedan;
+    // al llegar al máximo bloquea la cuenta y anula el desafío MFA pendiente.
+    async registerFailure(userId) {
+        const updated = await User.findByIdAndUpdate(
+            userId, { $inc: { failedLoginAttempts: 1 } }, { new: true }
+        );
+        if (updated.failedLoginAttempts < maxLoginAttempts())
+            return maxLoginAttempts() - updated.failedLoginAttempts;
+
+        const lockUntil = new Date(Date.now() + lockMinutes() * 60 * 1000);
+        await User.findByIdAndUpdate(userId, { lockUntil, failedLoginAttempts: 0 });
+        await MfaChallenge.deleteMany({ user: userId });
+        throw this.lockedError(lockUntil);
     }
 
     lockedError(lockUntil) {
         const minutes = Math.max(1, Math.ceil((lockUntil - Date.now()) / 60000));
-        return httpError(423, `Cuenta bloqueada por intentos fallidos. Intenta de nuevo en ${minutes} minuto(s)`);
+        return httpError(
+            423, `Cuenta bloqueada por intentos fallidos. Intenta de nuevo en ${minutes} minuto(s)`, { restart: true }
+        );
     }
 
     // Credenciales correctas (password o red social): se almacena el desafío y se
@@ -151,6 +159,7 @@ class AuthService {
 
         const user = await User.findById(sub).populate('store');
         if (!user) throw this.restartError('Usuario no encontrado');
+        if (user.isLocked) throw this.lockedError(user.lockUntil);
         if (!user.mfa.secret) throw httpError(400, 'Primero debes configurar el MFA');
 
         const delta = /^\d{6}$/.test(code ?? '') ? authenticator.checkDelta(code, decrypt(user.mfa.secret)) : null;
@@ -158,6 +167,9 @@ class AuthService {
         const valid = delta !== null && step > user.mfa.lastStep;
 
         if (!valid) {
+            // Los códigos incorrectos también cuentan para el bloqueo de la cuenta
+            await this.registerFailure(user._id);
+
             const left = MFA_MAX_ATTEMPTS - challenge.attempts;
             if (left <= 0) {
                 await MfaChallenge.deleteOne({ _id: cid });
@@ -169,6 +181,8 @@ class AuthService {
         await MfaChallenge.deleteOne({ _id: cid });
         user.mfa.enabled = true;
         user.mfa.lastStep = step;
+        user.failedLoginAttempts = 0;
+        user.lockUntil = null;
         await user.save();
 
         return { token: this.signToken(user) };

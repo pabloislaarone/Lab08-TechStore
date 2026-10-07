@@ -88,7 +88,8 @@ El password de todos es el valor de `SEED_PASSWORD`.
 4. El usuario ingresa el código de 6 dígitos (cambia cada 30 segundos).
 5. Si es correcto se entrega el token JWT completo. Si falla 3 veces debe iniciar sesión otra vez.
 
-Después de 5 passwords incorrectos la cuenta se bloquea 15 minutos. El administrador puede
+Después de 5 intentos fallidos (passwords o códigos MFA incorrectos) la cuenta se bloquea 15
+minutos. El contador se reinicia al completar el segundo factor. El administrador puede
 desbloquearla desde la pantalla de usuarios.
 
 ## Permisos por perfil
@@ -139,6 +140,53 @@ src/
   views/         Plantillas EJS
   public/        CSS y JavaScript del navegador
 ```
+
+## Evidencias
+
+### Registro rechazado por contraseña débil
+
+![Registro rechazado por contraseña débil](docs/capturas/01-registro-password-debil.png)
+
+### QR del MFA y acceso concedido
+
+En el primer ingreso se muestra el código QR para vincular Google Authenticator.
+
+![Código QR del MFA](docs/capturas/02-mfa-qr.png)
+
+Con el código de 6 dígitos correcto se concede el acceso.
+
+![Acceso concedido](docs/capturas/03-acceso-concedido.png)
+
+### JWT en jwt.io
+
+![JWT decodificado en jwt.io](docs/capturas/04-jwt-io.png)
+
+### MFA bloqueado tras 3 códigos incorrectos
+
+![MFA bloqueado tras 3 códigos incorrectos](docs/capturas/05-mfa-3-intentos.png)
+
+### Empleado intentando cambiar un precio
+
+El Empleado de Ventas no tiene la opción de editar el producto: solo puede actualizar el stock de
+su tienda.
+
+![Inventario visto por el empleado](docs/capturas/06-empleado-inventario.png)
+
+![El empleado solo puede cambiar el stock](docs/capturas/07-empleado-solo-stock.png)
+
+### Cuenta bloqueada tras 5 intentos
+
+![Cuenta bloqueada tras 5 intentos](docs/capturas/08-cuenta-bloqueada.png)
+
+### Login con Google
+
+![Sesión iniciada con Google](docs/capturas/09-login-google.png)
+
+### Login con GitHub
+
+![Autorización de la aplicación en GitHub](docs/capturas/10-github-autorizacion.png)
+
+![Sesión iniciada con GitHub](docs/capturas/11-login-github.png)
 
 ## Autor
 
